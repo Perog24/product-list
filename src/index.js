@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom/client';
 
 import App from './App';
 import Main from './components/Main';
+import EditeProduct from './components/EditeProduct';
 import mainStore from './store';
 
 import './index.css';
@@ -16,7 +17,9 @@ export const router = createBrowserRouter([
     { path: '/product_list',
     element: <Main />,
     children: [
-
+        {path: '/product_list/:id',
+        element: <EditeProduct/> ,   
+    }
     ]
     },
     { path: '*',

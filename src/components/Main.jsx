@@ -1,15 +1,20 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {setProductsList}  from '../store/slices/products.slice';
+import {setProductsList, deleteProductsItem}  from '../store/slices/products.slice';
+
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import styles from './Main.module.scss'
+import { Outlet, useNavigate } from 'react-router-dom';
 
 const Main = () => {
   const products = useSelector((state) => state.products)
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
+  const navigate = useNavigate()
+
+
 
   const handleSubmit = (values, {resetForm} ) => { 
     const newProduct = {
@@ -33,9 +38,10 @@ const Main = () => {
     }   
   };
 
-  const changeDiscription = (index) =>{
+  const changeDiscription = (id) =>{
+      navigate(  `/product_list/${id}`) 
+    }
 
-  }
   return (
    <div>
    <Formik 
@@ -54,25 +60,25 @@ const Main = () => {
    onSubmit= {handleSubmit}
    >
       <Form className={styles.form}>
-         <label for="id">ID:</label>
+         <label htmlFor="id">ID:</label>
          <Field 
          type='number'
          name="id"
          placeholder="ID number"/>
          <ErrorMessage name="id" component='div' />
-         <label for="title">Title:</label>
+         <label htmlFor="title">Title:</label>
         <Field
           type="text"
           name="title"
           placeholder="Название" />
         <ErrorMessage name="title" component='div' />
-        <label for="content">Content:</label>
+        <label htmlFor="content">Content:</label>
         <Field
           type="text"
           name="content"
           placeholder="Контент" />
         <ErrorMessage name="content" component='div' />
-        <label for="exist">Exist:</label>
+        <label htmlFor="exist">Exist:</label>
         <Field
           type="checkbox"
           name="exist" />
@@ -83,6 +89,7 @@ const Main = () => {
       <table className={styles.prodListTable}>
          <thead>
             <tr>
+               <th>№</th>
                <th>ID</th>
                <th>Название</th>
                <th>Контент</th>
@@ -91,21 +98,24 @@ const Main = () => {
             </tr>
          </thead>
          <tbody>
-            {products.map(product => (      
+            {products.map((product, index) => (      
                <tr key={product.id}>
+                  <td>{index}</td>
                   <td>{product.id}</td>
                   <td>{product.title}</td>
                   <td>{product.content}</td>
                   <td>{product.exist ? 'Есть': 'Нет'}</td>
                   <td>
-                     <button onClick={changeDiscription(product.id)}>Изменить</button>
-                     <button onClick={() => dispatch(setProductsList(product))}>Удалить</button>
+                     <button onClick={()=>changeDiscription(product.id)}>Изменить</button>
+                     <button onClick={() => dispatch(deleteProductsItem(product))}>Удалить</button>
                   </td>
                </tr>
             ))}
          </tbody>
       </table>      
     )}
+   
+        <Outlet />
    
    </div>
   );
