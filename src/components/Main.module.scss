@@ -1,0 +1,29 @@
+.form{
+   margin: 10px auto;
+   width: 50%;
+   min-width: 300px;
+   input{
+      width: 100%;
+   }
+   label, input[type="checkbox"] {
+      width:fit-content;
+   }
+   button{
+     position: relative;
+     left:70%;
+     transform: translateX(-50%);
+   }
+}
+.prodListTable{
+   margin: 10px auto;
+   width: 80%;
+   text-align: center;
+   border: 1px solid black;
+   border-collapse: collapse;
+}
+th, td {
+   border: 1px solid black;
+   overflow: hidden;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+}
