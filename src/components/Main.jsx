@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {setProductsList, deleteProductsItem}  from '../store/slices/products.slice';
 
@@ -10,11 +10,14 @@ import styles from './Main.module.scss'
 import { Outlet, useNavigate } from 'react-router-dom';
 
 const Main = () => {
-  const products = useSelector((state) => state.products)
+  const products = useSelector((state) => state.products);
+  const [productsSortArr, setProductsSortArr] = useState(products);
   const dispatch = useDispatch(); 
   const navigate = useNavigate()
 
-
+  useEffect(() =>{
+   setProductsSortArr(products);
+  }, [products])
 
   const handleSubmit = (values, {resetForm} ) => { 
     const newProduct = {
@@ -40,6 +43,22 @@ const Main = () => {
 
   const changeDiscription = (id) =>{
       navigate(  `/product_list/${id}`) 
+    }
+
+    const productsSortFunc = (sortType) => {
+      let productsSortArray = [];
+      if(sortType === 'All'){
+         productsSortArray = products;
+      } else if(sortType === 'Exist'){
+         productsSortArray = products.filter((item) => item.exist === true)
+      } else if(sortType === 'Not exist'){
+         productsSortArray = products.filter((item) => item.exist !== true)
+      }
+      setProductsSortArr(productsSortArray);
+    }  
+    
+    const showComments = (id) =>{
+      navigate(  `/comments/${id}`)
     }
 
   return (
@@ -85,34 +104,42 @@ const Main = () => {
         <button type="submit">Добавить</button>
       </Form>
    </Formik>
-   {products.length > 0 && (
-      <table className={styles.prodListTable}>
-         <thead>
-            <tr>
-               <th>№</th>
-               <th>ID</th>
-               <th>Название</th>
-               <th>Контент</th>
-               <th>Наличие</th>
-               <th>Действия</th>
-            </tr>
-         </thead>
-         <tbody>
-            {products.map((product, index) => (      
-               <tr key={product.id}>
-                  <td>{index}</td>
-                  <td>{product.id}</td>
-                  <td>{product.title}</td>
-                  <td>{product.content}</td>
-                  <td>{product.exist ? 'Есть': 'Нет'}</td>
-                  <td>
-                     <button onClick={()=>changeDiscription(product.id)}>Изменить</button>
-                     <button onClick={() => dispatch(deleteProductsItem(product))}>Удалить</button>
-                  </td>
+   {productsSortArr.length > 0 && (  
+      <div>    
+         <select onChange={(e)=>productsSortFunc(e.target.value)}>
+            <option value="All" >All</option>
+            <option value="Exist" >Exist</option>
+            <option value="Not exist" >Not Exist</option>
+         </select>
+         <table className={styles.prodListTable}>
+            <thead>
+               <tr>
+                  <th>№</th>
+                  <th>ID</th>
+                  <th>Название</th>
+                  <th>Контент</th>
+                  <th>Наличие</th>
+                  <th>Действия</th>
                </tr>
-            ))}
-         </tbody>
-      </table>      
+            </thead>
+            <tbody>
+               {productsSortArr.map((product, index) => (      
+                  <tr key={product.id}>
+                     <td>{index}</td>
+                     <td>{product.id}</td>
+                     <td>{product.title}</td>
+                     <td>{product.content}</td>
+                     <td>{product.exist ? 'Есть': 'Нет'}</td>
+                     <td>
+                        <button onClick={()=>changeDiscription(product.id)}>Изменить</button>
+                        <button onClick={() => dispatch(deleteProductsItem(product))}>Удалить</button>
+                        <button onClick={() => showComments(product.id)}>Show comments</button>
+                     </td>
+                  </tr>
+               ))}
+            </tbody>
+         </table>  
+      </div> 
     )}
    
         <Outlet />
