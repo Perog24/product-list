@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {setProductsList, deleteProductsItem}  from '../store/slices/products.slice';
-
-
+import { setCount} from '../store/slices/existCounter.slice';
+ 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import styles from './Main.module.scss'
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, Link } from 'react-router-dom';
 
 const Main = () => {
   const products = useSelector((state) => state.products);
   const [productsSortArr, setProductsSortArr] = useState(products);
+  const existCount = useSelector((state) => state.existCounter);
   const dispatch = useDispatch(); 
   const navigate = useNavigate()
 
   useEffect(() =>{
    setProductsSortArr(products);
-  }, [products])
+   let productExistArray = products.filter((item) => item.exist === true);
+   if(productExistArray.length){
+   dispatch(setCount(productExistArray.length))
+   } else{
+      dispatch(setCount(0))
+   }
+  }, [products, dispatch])
 
   const handleSubmit = (values, {resetForm} ) => { 
     const newProduct = {
@@ -42,7 +49,7 @@ const Main = () => {
   };
 
   const changeDiscription = (id) =>{
-      navigate(  `/product_list/${id}`) 
+      navigate(`/product_list/${id}`) 
     }
 
     const productsSortFunc = (sortType) => {
@@ -58,11 +65,14 @@ const Main = () => {
     }  
     
     const showComments = (id) =>{
-      navigate(  `/comments/${id}`)
+      const chooseProduct = products.find((item) => item.id === id);      
+      navigate(`/comments/${id}`, {state:{chooseProduct}})
     }
 
   return (
-   <div>
+   <div className={styles.mainWrapper}>
+      <Link to={`/`}>Start page</Link>
+      
    <Formik 
    initialValues={{
       id: '',
@@ -111,6 +121,7 @@ const Main = () => {
             <option value="Exist" >Exist</option>
             <option value="Not exist" >Not Exist</option>
          </select>
+         <p> Товару в сховищі: {existCount}</p>
          <table className={styles.prodListTable}>
             <thead>
                <tr>

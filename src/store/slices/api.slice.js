@@ -31,8 +31,8 @@ export const getPosts = () => dispatch => {
       })
 }
 
-export const getComments = () => dispatch => {
-   getDataApi("https://jsonplaceholder.typicode.com/comments")
+export const getComments = (postId) => dispatch => {
+   getDataApi(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`)
    .then(data => {
       return dispatch(getAsyncComments(data));
       })

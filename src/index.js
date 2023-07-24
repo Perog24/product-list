@@ -5,7 +5,9 @@ import ReactDOM from 'react-dom/client';
 
 import App from './App';
 import Main from './components/Main';
+import Comments from './components/Comments';
 import EditeProduct from './components/EditeProduct';
+import UserInfo from './components/UserInfo';
 import mainStore from './store';
 
 import './index.css';
@@ -21,6 +23,12 @@ export const router = createBrowserRouter([
         element: <EditeProduct/> ,   
     }
     ]
+    },
+    { path: '/comments/:id',
+        element: <Comments/>,   
+    },
+    { path: '/userInfo/:id',
+        element: <UserInfo/>,   
     },
     { path: '*',
         element: <h1>404</h1>},

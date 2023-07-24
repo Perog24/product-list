@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 import { getUsers} from './store/slices/api.slice';
 import { setIsLogined } from './store/slices/isLogin.slice';
 
-import './App.css';
+import styles from'./App.module.scss';
 import { useNavigate } from 'react-router-dom';
 
 const LoginSchema = Yup.object().shape({
@@ -62,9 +62,10 @@ function App() {
 
  if (!isLogined) {
   return (  
-      <div className="App">
+      <div className={styles.wrapper}>
         <h1>Product list</h1>
-        <Formik
+        <div className={styles.formWrapper}>
+        <Formik 
           initialValues={{
             username: '',
             email: '',
@@ -74,7 +75,7 @@ function App() {
             handleSubmite(values);
           }}
           >
-          <Form>
+          <Form className={styles.formik}>
             <label htmlFor='username'>User name:</label>
             <Field name="username" type="text" placeholder="Username" />
             <ErrorMessage name='username' component="div"/>
@@ -84,16 +85,18 @@ function App() {
             <button type="submit">Log In</button>
           </Form>
         </Formik>
+        </div>
       </div>  
   );
 } else {
   return (
-    <div className="App">
+    <div className={styles.wrapper}>
       <h1>Product list</h1>
-      <p>Welcome, {localStorage.getItem('username')}!</p>
-      <button onClick={handleLogOut}>Logout</button>
-      <button onClick={startApp}>Let start</button>
-     
+      <div className={styles.formWrapper}>      
+      <h1>Welcome, {localStorage.getItem('username')}!</h1>
+      <button className={`${styles.btn} ${styles.out}`} onClick={handleLogOut}>Logout</button>
+      <button className={styles.btn} onClick={startApp}>Let start</button>
+      </div>
     </div>
   );
   }
