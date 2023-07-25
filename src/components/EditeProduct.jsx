@@ -45,7 +45,7 @@ const EditProduct = ({ onClose }) => {
           onChange={(e) => setEditedContent(e.target.value)}
         />
         <button onClick={()=>handleSaveChanges()}>Save Changes</button>
-        <button onClick={onClose}>Cancel</button>
+        <button onClick={()=>navigate(-1)}>Cancel</button>
       </div>
     </div>    
   );}

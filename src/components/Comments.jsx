@@ -23,12 +23,16 @@ const Comments = () => {
           navigate(`/userInfo/${(user.name).replace(/\s/g,'_')}`, {state: {userInfo: user}});
    };
   return (
-    <>
-     <button onClick={()=>navigate(-1)}>Prev</button>
+    <div className={styles.commentsWrapper}>
+      <span className={styles.headerElement} >
+        <button onClick={()=>navigate(-1)}>Prev page</button>
       <h1>Comments</h1>
-      <div>
-        <h3>{chooseProduct?.title}</h3>
-        <p>Id товару: {chooseProduct.id}, Опис: {chooseProduct?.content}</p>
+      </span>
+     
+      <div className={styles.chooseProd}>
+        <h3>Назва товару: {chooseProduct?.title}</h3>
+        <p>Id товару: {chooseProduct.id}</p>
+         <p>Опис: {chooseProduct?.content}</p>
       </div>
       { comments.length > 0 ? (
         <div>
@@ -49,7 +53,7 @@ const Comments = () => {
       )
        
       }
-   </>
+   </div>
    )
   }
   export default Comments;

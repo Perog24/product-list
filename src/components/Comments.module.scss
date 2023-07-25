@@ -1,3 +1,42 @@
+.commentsWrapper{
+   display: flex;
+   flex-direction: column;
+   padding: 12px;
+}
+.headerElement{
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   h1{
+      font-size: 44px;
+      text-shadow: 1px 1px 1px red;      
+   }
+   button{
+   width: 160px;
+   margin: 10px;
+   padding: 10px;
+   border-radius: 5px;
+   border: none;
+   cursor: pointer;
+   font-size: 20px;
+   font-weight: bold;
+   color: #fff;
+   background-color: #000;
+   &:hover{
+   box-shadow: 0 0 10px #000;
+   transition: 0.5s;
+   outline: none;
+   }
+}
+}
+.chooseProd{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap:30px;
+   margin: 10px;
+}
+
 .comment{
    display: inline-flex;
    gap: 10px;

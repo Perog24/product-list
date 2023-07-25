@@ -1,9 +1,15 @@
+body{
+   background-color: gray;
+}
 .mainWrapper{
    padding: 18px;
-   display: flex;
+   display: inline-flex;
    flex-wrap: wrap;
-   min-height: 100vh;
+   height: 100%;
    background-color: gray;
+   justify-content: center;
+
+ 
    a{
       text-decoration: none;
       color: white;
@@ -18,12 +24,20 @@
       }
    }
 }
+.linkDiv{
+   display: flex;
+   flex-direction: column;
+   height: 100px;
+}
 .form{
    position: relative;
    width: 60%;
    min-width: 300px;
+   height: 200px ;
+   margin: 0 auto;
    input{
       width: 100%;
+      height: 25px;
       margin-bottom: 12px;
    }
    label, input[type="checkbox"] {
@@ -34,36 +48,24 @@
      right: 0;
    }
 }
+.prodListDiv{
+   width: 100%;
+   
+}
 .prodListTable{
    margin: 10px auto;
-   width: 80%;
+   width: 90%;
+   max-width: 90%;
    text-align: center;
    border: 1px solid black;
    border-collapse: collapse;
 }
 th, td {
    border: 1px solid black;
-   overflow: hidden;
+   max-width: 200px;
+   overflow-x: hidden;
    white-space: nowrap;
    text-overflow: ellipsis;
 }
-tr{
-   position: relative;
-}
-// tr::after{
-//    content: "show comments";
-//    position: absolute;
-//    text-align: center;   
-//    top: -20px;
-//    left: 40%;
-//    width: 300px;
-//    height: 20px;  
-//    background-color: rgba(5, 5, 5, 0.918);
-//    color: white;
-//    visibility: hidden;
-// }
 
-// tr:hover::after{
-//    visibility: visible;
-//    z-index: 3;
-// }
+
